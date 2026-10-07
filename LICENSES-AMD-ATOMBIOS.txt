@@ -1,0 +1,9 @@
+AMD AtomBIOS components
+
+The files under atomlib/ are derived from AMD AtomBIOS/AMD GPU driver source
+code. Their original source files carry AMD's MIT-style permission notice.
+Those copyright and permission notices are retained in the source files.
+
+This project does not relicense those third-party notices away. See the
+individual source headers and the upstream Linux source for the corresponding
+AMD AtomBIOS code.
