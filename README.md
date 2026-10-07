@@ -7,6 +7,45 @@ The loader reads a **user-supplied full ROM dump** from a FAT filesystem,
 emulates the ROM reads required during initialization, and can expose the ROM
 to the operating system through PCI/ACPI mechanisms.
 
+## Quick Setup
+
+```bash
+git clone https://github.com/aryan-nikzad/rx580_vbios_loader_git.git
+cd rx580_vbios_loader_git
+sudo apt install gnu-efi build-essential
+make
+```
+
+### Add your own vBIOS
+
+Copy one or more `.rom` vBIOS files into the `vbioses/` folder:
+
+```text
+rx580_vbios_loader_git/
+├── vbioses/
+│   ├── my_rx580.rom
+│   ├── backup.rom
+│   └── another_vbios.rom
+└── ...
+```
+
+You can add **multiple ROMs**. The loader will try them until one successfully initializes the GPU.
+
+You must provide your **own vBIOS dump** or a legally obtained compatible ROM. Do not add proprietary ROMs to this repository.
+
+### Install
+
+```bash
+sudo ./install_linux.sh
+```
+
+> **Requirements:** The system must be booted in UEFI mode and GRUB must be installed. The installation script adds the vBIOS loader to the EFI/GRUB boot process.
+
+Reboot the system after installation.
+
+**Done.** The loader will attempt to load the supplied RX 580 vBIOS before the operating system initializes the GPU.
+
+
 > **Important:** This repository intentionally contains **no GPU vBIOS dumps,
 > GOP images, extracted firmware, or prebuilt `.efi` loader**. Firmware is
 > hardware/vendor material and should be obtained and used by the end user.
