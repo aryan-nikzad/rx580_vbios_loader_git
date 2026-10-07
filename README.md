@@ -55,6 +55,87 @@ Reboot the system after installation.
 > GOP images, extracted firmware, or prebuilt `.efi` loader**. Firmware is
 > hardware/vendor material and should be obtained and used by the end user.
 
+
+### Manual EFI / GRUB Setup
+
+If you do not want to use `install_linux.sh`, you can install the loader manually.
+
+1. Mount your EFI System Partition.
+2. Create a directory for the loader:
+
+```bash
+sudo mkdir -p /boot/efi/EFI/vbios_loader/vbioses
+```
+
+3. Copy the generated EFI loader:
+
+```bash
+sudo cp vbios_loader.efi /boot/efi/EFI/vbios_loader/
+```
+
+4. Copy your own `.rom` vBIOS files into the `vbioses` directory:
+
+```bash
+sudo cp *.rom /boot/efi/EFI/vbios_loader/vbioses/
+```
+
+You can place **multiple `.rom` files** there. The loader will try the available ROMs until one successfully initializes the GPU.
+
+The final structure should look similar to:
+
+```text
+EFI/
+└── vbios_loader/
+    ├── vbios_loader.efi
+    └── vbioses/
+        ├── my_rx580.rom
+        ├── backup.rom
+        └── another_vbios.rom
+```
+
+> The exact EFI partition mount point may differ on your system.
+
+### Boot Directly From GRUB
+
+You can also test the loader directly from GRUB without creating a permanent GRUB menu entry.
+
+1. Reboot and open the GRUB menu.
+2. Press **`c`** to open the GRUB command line.
+3. Chainload the EFI loader:
+
+```text
+chainloader (hd0,gpt1)/efi/vbios_loader/vbios_loader.efi
+boot
+```
+
+The disk and partition may be different on your system. For example:
+
+```text
+chainloader (hd0,gpt2)/efi/vbios_loader/vbios_loader.efi
+boot
+```
+
+Adjust the path to match your EFI System Partition.
+
+You can inspect available disks and partitions with:
+
+```text
+ls
+ls (hd0,gpt1)/
+ls (hd0,gpt2)/
+```
+
+### vBIOS Dumps
+
+The loader requires your own compatible `.rom` file. You can dump the vBIOS from your RX 580 and place the resulting ROM in the `vbioses/` directory.
+
+We have tested this project with RX 580 vBIOS dumps created using [`amdvbflash`](https://github.com/stylesuxx/amdvbflash).
+
+Do **not** upload your personal dumps or third-party/vendor ROMs to this repository unless you have verified that redistribution is permitted.
+
+
+
+
 ## How it works
 
 The loader:
