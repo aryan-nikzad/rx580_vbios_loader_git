@@ -18,6 +18,10 @@ make
 
 ### Add your own vBIOS
 
+```bash
+mkdir vbioses
+```
+
 Copy one or more `.rom` vBIOS files into the `vbioses/` folder:
 
 ```text
