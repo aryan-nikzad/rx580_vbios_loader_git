@@ -36,6 +36,7 @@ You must provide your **own vBIOS dump** or a legally obtained compatible ROM. D
 ### Install
 
 ```bash
+chmod +x ./install_linux.sh
 sudo ./install_linux.sh
 ```
 
