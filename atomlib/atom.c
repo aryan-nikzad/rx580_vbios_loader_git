@@ -21,7 +21,7 @@
  *
  * Author: Stanislaw Skowronek
  */
-
+#include <string.h>
 #include <linux/module.h>
 #include <linux/sched.h>
 #include <linux/slab.h>
@@ -1605,4 +1605,3 @@ bool amdgpu_atom_parse_cmd_header(struct atom_context *ctx, int index, uint8_t *
 		*crev = CU8(idx + 3);
 	return true;
 }
-
