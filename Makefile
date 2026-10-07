@@ -17,19 +17,19 @@ CFLAGS = -I/usr/include/efi -I/usr/include/efi/x86_64 -fpic -fshort-wchar \
 
 vbios_loader.efi: vbios_loader.so
 	objcopy -j .text -j .sdata -j .data -j .rodata -j .dynamic -j .dynsym \
-	 -j .rel -j .rela -j '.rel*' -j '.rela*' -j .reloc \
-	 --target=efi-app-x86_64 $< $@
+		-j .rel -j .rela -j '.rel*' -j '.rela*' -j .reloc \
+		-O pei-x86-64 $< $@
 
 vbios_loader.so: vbios_loader.o atomlib/atom.o atom_support.o
 	ld -shared -Bsymbolic -L/usr/lib -T/usr/lib/elf_x86_64_efi.lds /usr/lib/crt0-efi-x86_64.o \
-	 vbios_loader.o atomlib/atom.o atom_support.o -o $@ -lefi -lgnuefi
+		vbios_loader.o atomlib/atom.o atom_support.o -o $@ -lefi -lgnuefi
 
 vbios_loader.o: vbios_loader.c
 	gcc $(CFLAGS) -c $< -o $@
 
 atomlib/atom.o: atomlib/atom.c atomlib/amdgpu.h
 	gcc -O2 -fpic -fshort-wchar -fno-stack-protector -mno-red-zone -ffreestanding -w \
-	 -Iatomlib/inc -Iatomlib -include atomlib/amdgpu.h -c $< -o $@
+		-Iatomlib/inc -Iatomlib -include atomlib/amdgpu.h -c $< -o $@
 
 atom_support.o: atom_support.c
 	gcc $(CFLAGS) -c $< -o $@
